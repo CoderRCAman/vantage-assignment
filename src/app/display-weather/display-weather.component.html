@@ -12,7 +12,7 @@
           <h1 class="text-4xl font-semibold">
             {{ currentWeather?.temp_c }} °C
           </h1>
-          <p>Feels like {{ currentWeather?.feelslike_c }} °C</p>
+          <p class="">Feels like {{ currentWeather?.feelslike_c }} °C</p>
         </div>
       </div>
 
@@ -85,18 +85,18 @@
           </div>
         </div>
         <div class="space-y-2">
-          <p class="space-x-2">
+          <p class="space-x-2 flex justify-end sm:justify-center">
             <span>Feels like</span>
             <span class="font-semibold"
               >{{ currentWeather?.feelslike_c }} °C</span
             >
           </p>
-          <p class="flex items-center gap-2">
+          <p class="flex items-center gap-2 justify-end sm:justify-center">
             Humidity
             <mat-icon fontIcon="water_drop" />
             <span class="font-semibold">{{ currentWeather?.humidity }}%</span>
           </p>
-          <p class="flex gap-2 items-center">
+          <p class="flex gap-2 items-center justify-end sm:justify-center">
             Air Pressure
             <mat-icon fontIcon="network_check" />
             <span class="font-semibold"
