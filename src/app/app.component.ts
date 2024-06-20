@@ -25,6 +25,7 @@ export class AppComponent {
   title = 'vantage-assignment';
   loading = false;
   error = false;
+  loadingWeatherData = false;
   SearchResult: LOCATION[] = [];
   CurrentWeather: CurrentWeather | null = null;
   CurrentLocation: LOCATION | null = null;
@@ -54,12 +55,13 @@ export class AppComponent {
       });
   }
   handleSelectedLocation(location: LOCATION) {
+    this.loadingWeatherData = true;
     this.searchSevice
       .queryCurrentWeather(location.id)
       .subscribe((result: { current: CurrentWeather; location: LOCATION }) => {
         this.CurrentWeather = result.current;
         this.CurrentLocation = result.location;
-        console.log(this.CurrentWeather);
+        this.loadingWeatherData = false;
       });
     this.searchSevice.queryForecastWeather(location.id).subscribe(
       (result: {
