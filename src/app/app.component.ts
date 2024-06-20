@@ -7,6 +7,7 @@ import { DisplayWeatherComponent } from './display-weather/display-weather.compo
 import { SearchService } from './services/search.service';
 import { catchError, debounceTime, EMPTY, switchMap } from 'rxjs';
 import { CurrentWeather, ForecastDay, LOCATION } from '../types';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ import { CurrentWeather, ForecastDay, LOCATION } from '../types';
     SearchComponent,
     DisplayWeatherComponent,
     NotFoundSearchComponent,
+    NgIf,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
@@ -47,10 +49,12 @@ export class AppComponent {
         })
       )
       .subscribe((result: any) => {
-        console.log(result);
         this.loading = false;
         this.error = false;
-        if (result?.length == 0) this.error = true;
+        if (result?.length == 0) {
+          this.CurrentWeather = null;
+          this.error = true;
+        }
         this.SearchResult = result;
       });
   }

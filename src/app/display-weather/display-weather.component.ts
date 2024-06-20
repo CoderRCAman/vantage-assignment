@@ -26,7 +26,7 @@ import moment from 'moment';
 @Component({
   selector: 'app-display-weather',
   standalone: true,
-  imports: [MatIcon, NotFoundSearchComponent, NgIf, NgClass, NgFor,SlicePipe],
+  imports: [MatIcon, NotFoundSearchComponent, NgIf, NgClass, NgFor, SlicePipe],
   templateUrl: './display-weather.component.html',
   styleUrl: './display-weather.component.scss',
 })
@@ -67,9 +67,6 @@ export class DisplayWeatherComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.['currentWeather']) {
       this.findMatchingBG(changes?.['currentWeather'].currentValue);
-    }
-    if (changes?.['currentForecast']) {
-      console.log(changes?.['currentForecast'].currentValue);
     }
   }
   mathCeilWrap(value: number) {

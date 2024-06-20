@@ -7,13 +7,8 @@
     [error]="error"
     (selectedLocationEvent)="handleSelectedLocation($event)"
   />
-  @if (CurrentWeather) {
-  <app-display-weather
-    [currentWeather]="CurrentWeather"
-    [currentLocation]="CurrentLocation"
-    [currentForecast]="CurrentForecast"
-  />
-  }@else { @if (loadingWeatherData) {
+
+  @if (loadingWeatherData) {
   <div class="flex justify-center items-center mt-10 flex-col">
     <div role="status" class="mb-1">
       <svg
@@ -37,5 +32,18 @@
       >Loading weather info...</span
     >
   </div>
-  } }
+  }
+  <app-display-weather
+    *ngIf="CurrentWeather && !error && !loadingWeatherData"
+    [currentWeather]="CurrentWeather"
+    [currentLocation]="CurrentLocation"
+    [currentForecast]="CurrentForecast"
+  />
+
+  <div
+    *ngIf="!error && !CurrentWeather && !loadingWeatherData"
+    class="mt-10 text-center text-xl font-semibold text-indigo-300"
+  >
+    Search a location to view its weather info.
+  </div>
 </section>
