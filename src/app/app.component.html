@@ -34,7 +34,7 @@
   </div>
   }
   <app-display-weather
-    *ngIf="!CurrentWeather && !error && !loadingWeatherData"
+    *ngIf="CurrentWeather && !error && !loadingWeatherData"
     [currentWeather]="CurrentWeather"
     [currentLocation]="CurrentLocation"
     [currentForecast]="CurrentForecast"
