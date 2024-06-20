@@ -1,0 +1,186 @@
+<div
+  [ngClass]="bg_css_name"
+  class="z-20 clear_bg after container p-2 rounded-lg"
+>
+  <div class="p-2 z-20 flex gap-2 flex-col-reverse">
+    <div
+      class="glass-morph-card z-50 flex overflow-hidden flex-wrap gap-10 p-2 md:p-4 text-sm text-[rgb(244,245,246)]"
+    >
+      <div class="space-y-2">
+        <p>{{ formatDate(currentLocation?.localtime!) }}</p>
+        <div>
+          <h1 class="text-4xl font-semibold">
+            {{ currentWeather?.temp_c }} °C
+          </h1>
+          <p>Feels like {{ currentWeather?.feelslike_c }} °C</p>
+        </div>
+      </div>
+
+      <div
+        class="overflow-x-auto flex gap-3 justify-between flex-1 min-w-[400px]"
+      >
+        <div
+          *ngFor="let item of currentForecast?.[0]?.hour"
+          class="flex flex-col items-center gap-2"
+        >
+          @if (isAllowedTime(item?.time!)) {
+          <div class="w-20 flex flex-col items-center">
+            <div>{{ convertTime(item?.time!) }}</div>
+            <img
+              [src]="item?.condition?.icon"
+              [alt]="item?.condition?.text"
+              class="h-10 w-10"
+            />
+            <p>{{ item?.temp_c }} °C</p>
+          </div>
+          }
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <div class="grid md:grid-cols-2 grid-cols-1 gap-2 mt-2">
+      <div
+        class="glass-morph-card z-20 flex flex-wrap gap-y-2 justify-between p-2 text-sm text-[rgb(244,245,246)]"
+      >
+        <div class="space-y-2">
+          <div>{{ currentLocation?.name }}</div>
+          <div>{{ currentLocation?.region }}</div>
+          <div class="flex gap-2">
+            <div class="border rounded-md border-white p-2">
+              Latitude: {{ currentLocation?.lat }}
+            </div>
+            <div class="border rounded-md border-white p-2">
+              Longitude: {{ currentLocation?.lon }}
+            </div>
+          </div>
+        </div>
+        <div class="space-y-2">
+          <div>{{ currentLocation?.tz_id }}</div>
+          <div class="">
+            <div class="flex flex-row-reverse gap-2 items-center">
+              <p>{{ currentWeather?.condition?.text }}</p>
+              <img
+                class="h-7 w-7"
+                [src]="currentWeather?.condition?.icon"
+                [alt]="currentWeather?.condition?.text"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="glass-morph-card self-start gap-y-2 md:self-auto flex flex-wrap z-20 justify-between p-2 text-sm text-[rgb(244,245,246)]"
+      >
+        <div class="space-y-1">
+          <h1 class="text-2xl font-semibold">
+            {{ currentWeather?.temp_c }} °C
+          </h1>
+          <div class="flex gap-2 items-center">
+            <p>{{ currentWeather?.condition?.text }}</p>
+            <img
+              class="h-7 w-7"
+              [src]="currentWeather?.condition?.icon"
+              [alt]="currentWeather?.condition?.text"
+            />
+          </div>
+        </div>
+        <div class="space-y-2">
+          <p class="space-x-2">
+            <span>Feels like</span>
+            <span class="font-semibold"
+              >{{ currentWeather?.feelslike_c }} °C</span
+            >
+          </p>
+          <p class="flex items-center gap-2">
+            Humidity
+            <mat-icon fontIcon="water_drop" />
+            <span class="font-semibold">{{ currentWeather?.humidity }}%</span>
+          </p>
+          <p class="flex gap-2 items-center">
+            Air Pressure
+            <mat-icon fontIcon="network_check" />
+            <span class="font-semibold"
+              >{{ mathCeilWrap(currentWeather?.pressure_mb!) }} hPa</span
+            >
+          </p>
+        </div>
+        <div class="flex sm:flex-col gap-3">
+          <p class="flex sm:items-center items-start gap-2">
+            <mat-icon fontIcon="cloud" />
+            100
+          </p>
+          <p class="flex sm:items-center items-start gap-2">
+            <mat-icon fontIcon="air" />
+            6 KM/H
+          </p>
+          <p class="flex sm:items-center items-start gap-2">
+            <mat-icon fontIcon="visibility" />
+            6 KM
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- forecast result -->
+  <h1 class="text-xl px-2 font-semibold text-white mt-5 mb-2">
+    Next 3 days whether forecast ->
+  </h1>
+  <div class="space-y-2 overflow-hidden">
+    <div
+      *ngFor="let currentWeather of currentForecast | slice : 1"
+      class="glass-morph-card z-50 mx-2 flex overflow-hidden flex-wrap gap-10 p-2 md:p-4 text-sm text-[rgb(244,245,246)]"
+    >
+      <div class="space-y-2 w-44">
+        <p>{{ formatDate(currentWeather?.date!) }}</p>
+        <div>
+          <h1 class="text-4xl font-semibold">
+            {{ currentWeather?.day?.maxtemp_c }} °C
+          </h1>
+        </div>
+      </div>
+      <div
+        class="flex gap-10 md:gap-2 justify-between flex-1 overflow-x-auto min-w-[300px] w-full"
+      >
+        <div class="flex flex-col items-center gap-2 w-36">
+          <img
+            class="h-10 w-10"
+            [src]="currentWeather?.day?.condition?.icon"
+            [alt]="currentWeather?.day?.condition?.text"
+          />
+          <p class="text-center">{{ currentWeather?.day?.condition?.text }}</p>
+        </div>
+        <div class="flex flex-col w-24 items-center gap-2">
+          <p>Visibilty</p>
+          <!-- logo -->
+          <mat-icon fontIcon="visibility" />
+          <p>{{ currentWeather?.day?.avgvis_km }} KM</p>
+        </div>
+        <div class="flex flex-col w-24 items-center gap-2">
+          <p>Humidity</p>
+          <!-- logo -->
+          <mat-icon fontIcon="water_drop" />
+          <p>{{ currentWeather?.day?.avghumidity }}%</p>
+        </div>
+        <div class="flex flex-col items-center gap-2">
+          <p>WindSpeed</p>
+          <!-- logo -->
+          <mat-icon fontIcon="air" />
+          <p>{{ currentWeather?.day?.maxwind_kph }} KM/h</p>
+        </div>
+
+        <div class="flex flex-col items-center">
+          <p>Sunrise</p>
+          <!-- logo -->
+          <mat-icon fontIcon="sunny_snowing" class="text-red-500" />
+          <p>{{ currentWeather?.astro?.sunrise }}</p>
+        </div>
+        <div>
+          <p>Sunset</p>
+          <!-- logo -->
+          <mat-icon fontIcon="nights_stay" class="text-amber-100" />
+          <p>{{ currentWeather?.astro?.sunset }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
